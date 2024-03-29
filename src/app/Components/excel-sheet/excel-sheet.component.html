@@ -1,0 +1,311 @@
+
+
+<nav class="navbar bg-dark border-bottom navbar-expand-lg navbar-light border-body" data-bs-theme="dark">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h2">Excel Report</span>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto topnav"> 
+
+        </ul>
+    </div>
+    <ul class="nav">
+        <li class="nav-item active bg-white" style="text-align: end; margin-right: 13px;">Home</li>
+        <!-- <span class="navbar-brand mb-0 h2">Home</span> -->
+    </ul>
+</nav>
+
+<div class="card-1 flex flex-wrap justify-content-center gap-0 w-0">
+    <p-sidebar [(visible)]="sidebarVisible" position="left">
+        <h3>Sidebar</h3>
+        <ng-template pTemplate="header">Header Content</ng-template>
+        <ng-template pTemplate="content">Body Content</ng-template>
+        <ng-template pTemplate="footer">Footer Content</ng-template>
+    </p-sidebar>
+    <p-button type="button" class="w-80 mr-2" (click)="sidebarVisible = true" 
+    icon="pi pi-arrow-left" [style]="{'margin-left':'5px', 'height':'40px', 'width':'40px', 'margin':'15px'}"></p-button>
+</div>
+
+
+<!-- <div #container class="card-1 flex flex-wrap justify-content-center gap-0 mt-3 ml-4">
+    <button (click)="copyContent()">Copy Me</button>
+</div> -->
+
+
+
+
+<div class="d-flex flex-column justify-content-center align-items-center mt-3" style="width: 100%;">
+    <div class="col-11 bg-body-secondary rounded fs-5 gap-3">
+
+        <div class="d-flex  mt-3">
+            <div class="col">
+                <button pButton pRipple label="Add to excel" style="margin-left:5px; height:44px; width:175px; margin:15px" 
+                    class="p-button-secondary" class="fa fa-share" aria-hidden="true" (click)="exportToExcel()"></button>
+            </div>
+
+            <div class="col mr-4">
+                <p-button class="add-button mr-5" [style]="{'margin-right':'5px', 'height':'41px', 'width':'180px', 'margin':'20px'}"
+                    type="button" icon="pi pi-plus" styleClass="p-button-text" (click)="addnewRecord()">Add new record</p-button>
+            </div>
+
+            <div class="mt-4 m-5">
+                <small>Click & Control+V to paste data from Excel </small>
+            </div>
+
+            <div class="col">
+                <p-button class="mr-4" [style]="{'margin-left':'75px', 'height':'40px', 'width':'180px', 'margin':'20px'}" 
+                    type="button" icon="pi pi-filter-slash" styleClass="p-button-outlined" (click)="reSetFilter(mytable)">Clear Filter</p-button>  
+            </div>
+
+            <!-- <div class="col" #container>
+                <button ngxClipboard [cbContent]="'Content to be copied.'" [container]="container">Copy</button>
+                <p-button  class="add-button mr-0" [style]="{'margin-left':'5px', 'height':'45px', 'width':'180px', 'margin':'15px'}" 
+                    type="button" icon="pi pi-plus" styleClass="p-button-text" (click)="copyTextClipboard()">Copy to clipboard
+                </p-button>  
+            </div> -->
+
+        </div>
+
+        <div class="flex mt-2 m-4 mb-0">
+            <span class="p-input-icon-left ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="mytable.filterGlobal(mytable._value, 'contains')" placeholder="Search keyword" />
+            </span>
+        </div>
+
+        
+
+        <h4 class="text-center mt-0">Report  Table</h4>
+        <div class="main-div py-3" style="width: 100%; overflow-x: auto;">
+            <p-table #mytable [value]="empArray" (paste)="CopyAndPast($event)" [tableStyle]="{'min-width': '70rem', 'width': '100%'}"
+                [globalFilterFields]="['identifire', 'tvd1', 'ahd', 'tvd2', 'easting', 'northing', 'interval_XU', 'interval_PE', 'comments']"
+                [showCurrentPageReport]="true" styleClass="p-datatable-striped" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+                <!-- <ng-template pTemplate="caption">
+                    <div class="flex">
+                        <span class="p-input-icon-left ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text"  placeholder="Search keyword" />
+                        </span>
+                    </div>
+                </ng-template>  -->
+
+
+                <ng-template pTemplate="header" let-columns>
+                    <tr class="bg-warning">
+
+                        <th pSortableColumn="id" style="width:11%">
+                            <div class="flex align-items-center text-center">
+                                Sr no: <p-sortIcon field="id"></p-sortIcon>
+                            </div>
+                        </th>
+
+                        <th pSortableColumn="Identifire" style="width:9%">
+                            Identifire <p-sortIcon field="Identifire"></p-sortIcon>
+                        </th>
+
+                        <!-- <th pSortableColumn="tvd1">
+                            TVD [SS] <p-sortIcon field="tvd1"></p-sortIcon>
+                        </th> -->
+
+                        <th pSortableColumn="ahd" style="width:13%">
+                            AHD [m BDF] <p-sortIcon field="ahd"></p-sortIcon>
+                        </th>
+
+                        <th pSortableColumn="tvd2" style="width:13%">
+                            TVD [m BDF] <p-sortIcon field="tvd2"></p-sortIcon>
+                        </th>
+
+                        <th pSortableColumn="easting" style="width:13%">
+                            Easting <p-sortIcon field="easting"></p-sortIcon>
+                        </th>
+
+                        <th pSortableColumn="northing" style="width:13%">
+                            Northing <p-sortIcon field="northing"></p-sortIcon>
+                        </th>
+
+                        <th pSortableColumn="interval" style="width:13%">
+                            Interval XU<p-sortIcon field="interval"></p-sortIcon>
+                        </th>
+
+                        <th pSortableColumn="interval" style="width:13%">
+                            Interval PE<p-sortIcon field="interval"></p-sortIcon>
+                        </th>
+
+                        <th pSortableColumn="comments" style="width:13%">
+                            Comments <p-sortIcon field="comments"></p-sortIcon>
+                        </th>
+
+                        <th pSortableColumn="actn" style="width:10%">
+                            <div class="flex text-center">
+                                Actions <p-sortIcon field="comments"></p-sortIcon>
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-user let-i="rowIndex">
+                    <!-- <form  action=""> -->
+                    <tr class="flex ">
+                        
+                        <td>{{i+1}}</td>
+
+                        <td>
+                            <div *ngIf="user.isEdit">
+                                <input  type="text"  pInputText name="identifire" placeholder="" class="form-control form_input" [(ngModel)]="user.identifire"/>
+                                <!-- <input pInputText type="text" [(ngModel)]="dt22" (input)="dt.filter($event.target.value, 'date', 'contains')"> -->
+
+                            </div>
+                            <div *ngIf="!user.isEdit">
+                                {{user.identifire}}
+                                <!-- <input readonly type="text" pInputText name="" placeholder="Identifire" class="form-control form_input" [(ngModel)]="user.identifire"/> -->
+                            </div>
+                        </td>
+
+                        <!-- <td>{{user.tvd1}}</td> -->
+
+                        <td>
+                            <div *ngIf="user.isEdit">
+                                <input type="text"  pInputText  name="tvd1" placeholder="" class="form-control form_input" [(ngModel)]="user.ahd"/>
+                            </div>
+                            <div *ngIf="!user.isEdit">
+                                {{user.ahd}}
+                                <!-- <input readonly type="text" pInputText  name="tvd1" placeholder="" class="form-control form_input" [(ngModel)]="user.ahd"/> -->
+                            </div>
+                        </td>
+
+                        <td>
+                            <div *ngIf="user.isEdit">
+                                <input type="text" pInputText name="tvd2" placeholder="" class="form-control form_input" [(ngModel)]="user.tvd2"/>
+                            </div>
+                            <div *ngIf="!user.isEdit">
+                                {{user.tvd2}}
+                                <!-- <input type="text" readonly  pInputText name="tvd2" placeholder="" class="form-control form_input" [(ngModel)]="user.tvd2"/> -->
+                            </div>  
+                        </td>
+
+                        <td>
+                            <div *ngIf="user.isEdit">
+                                <input type="text" pInputText name="easting" placeholder="" class="form-control form_input" [(ngModel)]="user.easting"/>  
+                            </div>
+                            <div *ngIf="!user.isEdit">
+                                {{user.easting}}
+                                <!-- <input type="text" readonly pInputText name="easting" placeholder="" class="form-control form_input" [(ngModel)]="user.easting"/>  -->
+                            </div>
+                        </td>
+
+                        <td>
+                            <div *ngIf="user.isEdit">
+                                <input type="text" pInputText name="northing" placeholder="" class="form-control form_input" [(ngModel)]="user.northing"/>
+                            </div>
+                            <div *ngIf="!user.isEdit">
+                                {{user.northing}}
+                                <!-- <input type="text" readonly pInputText name="northing" placeholder="" class="form-control form_input" [(ngModel)]="user.northing"/> -->
+                            </div>
+                        </td>
+
+                        <td>
+                            <div *ngIf="user.isEdit">
+                                <input type="number" inputId="integeronly"  [(ngModel)]="user.interval_XU" class="form-control form_input" name="interval" placeholder=""/>
+                            </div>
+                            <div *ngIf="!user.isEdit">
+                                {{user.interval_XU}}
+                                <!-- <input type="number" readonly inputId="integeronly"  [(ngModel)]="user.interval_XU" class="form-control form_input" name="interval" placeholder=""/> -->
+                            </div>
+                        </td>
+
+
+                        <td>
+                            <div *ngIf="user.isEdit">
+                                <input type="number" inputId="integeronly"  [(ngModel)]="user.interval_PE" class="form-control form_input" name="interval" placeholder=""/>
+                            </div>
+                            <div *ngIf="!user.isEdit">
+                                {{user.interval_PE}}
+                                <!-- <input type="number" readonly inputId="integeronly"  [(ngModel)]="user.interval_PE" class="form-control form_input" name="interval" placeholder=""/> -->
+                            </div>
+                        </td>
+
+                        <td>
+                            <div *ngIf="user.isEdit">
+                                <input type="text" pInputText name="comments" placeholder="" class="form-control form_input" [(ngModel)]="user.comments" />
+                            </div>
+                            <div *ngIf="!user.isEdit">
+                                {{user.comments}}
+                                <!-- <input type="text" readonly pInputText name="comments" placeholder="" class="form-control form_input" [(ngModel)]="user.comments" /> -->
+                            </div> 
+                        </td>
+
+                        <td>
+                            <div *ngIf="user.isEdit"  class="">
+                                <button *ngIf="user.isEdit" pButton pRipple label="Save" style="margin-left:5px; height:30px; width:90px; margin:9px" 
+                                    class="p-button-success" (click)="onSave(user)">
+                                </button>
+                                <!-- <button  pButton pRipple label="Update" style="margin-left:5px; height:30px; width:90px; margin:9px" class="p-button-info"></button> -->
+                                <button  pButton pRipple label="Cancel" style="margin-left:5px; height:30px; width:90px; margin:9px; align-items: center;"
+                                    class="p-button-warning" (click)="onCancel(user)"></button>
+                            </div>
+                            <div *ngIf="!user.isEdit"  class=""> 
+                                <button  pButton pRipple label="Edit" class="fa fa-pencil-square-o" style="margin-left:5px; height:30px; width:90px; margin:9px;"
+                                    class="p-button-info" (click)="onEdit(user)">
+                                </button>
+                                <button pButton pRipple label="Delete" class="fa fa-trash" aria-hidden="true" style="margin-left:5px; height:30px; width:90px; margin:9px" 
+                                    class="p-button-danger" (click)="onDelete(user)">
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                <!-- </form> -->
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<br><br>
+
+
+<div class="chart-card card flex  justify-content-center gap-0 mt-5 w-1">
+    <div class="container-fluid text-center mt-4">
+        <span class="mb-0 h1">Excel Report</span>
+    </div>
+    <div class="bar-div col-md-7 rounded fs-5 gap-3 text-center mt-5 ml-5">
+        <p-chart type="bar" [data]="basicData" [style]="{'margin': '40px', 'margin-left':'45px'}" ></p-chart>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
